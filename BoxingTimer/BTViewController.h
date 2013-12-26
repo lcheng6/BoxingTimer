@@ -11,6 +11,11 @@
 @class BTCounterViewController;
 @class BTRoundViewController;
 
+typedef enum _ClockUsedInPrevousTimeUpdate {
+    kGoTimer,
+    kRestTimer
+} ClockUsedInPreviousTimeUpdate;
+
 typedef struct _Period {
     int goPeriod;
     int restPeriod;
@@ -29,6 +34,7 @@ typedef struct _AppState {
     double lastStartButtonPressedTime;
     double totalRunningTime;
     BOOL clockIsRunning;
+    ClockUsedInPreviousTimeUpdate clockedUsedLast;
 } AppState;
 
 @interface BTViewController : UIViewController

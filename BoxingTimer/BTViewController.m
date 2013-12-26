@@ -104,8 +104,8 @@
     [self refreshClockDisplay];
     
     if (appState.clockIsRunning == NO) {
-        //The current state is not running, and title of start button is "Start"
-        [startButton setTitle:@"Stop" forState:UIControlStateNormal];
+        //The current state is not running, and title of start button is "Hold"
+        [startButton setTitle:@"Hold" forState:UIControlStateNormal];
         appState.clockIsRunning = YES;
         appState.lastStartButtonPressedTime = CACurrentMediaTime();
         if(stopTimer == nil) {
@@ -113,7 +113,7 @@
         }
         [resetButton setEnabled:NO];
     } else {
-        //The current state is running, ad the title of the start button is "Stop"
+        //The current state is running, ad the title of the start button is "Hold"
         [startButton setTitle:@"Start" forState:UIControlStateNormal];
         appState.totalRunningTime += CACurrentMediaTime() - appState.lastStartButtonPressedTime;
         appState.clockIsRunning = NO;
@@ -159,6 +159,8 @@
         }
         clockDisplay.restSeparatorOn = NO;
         clockDisplay.restDisplay = 0;
+        
+        appState.clockedUsedLast = kGoTimer;
     } else {
         clockDisplay.restDisplay = entirePeriod - secIntoThisEntirePriod;
         if (tenthSec < 5) {
@@ -168,6 +170,10 @@
         }
         clockDisplay.goSeparatorOn = NO;
         clockDisplay.goDisplay = 0;
+        if (appState.clockedUsedLast == kGoTimer) {
+            [self playAlarmAtRoundEnd];
+        }
+        appState.clockedUsedLast = kRestTimer;
     }
 }
 
