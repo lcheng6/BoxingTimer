@@ -30,13 +30,17 @@ typedef struct _ClockDisplay {
     int roundDisplay;
 } ClockDisplay;
 
+
+
 typedef struct _AppState {
-    double lastStartButtonPressedTime;
-    double totalRunningTime;
+    double startOfThisRunningTimeBlock;
+    //StartOfThisPeriod
+    double existingRunningTimeThisPeriod;
     BOOL clockIsRunning;
+    BOOL clockWasReset;
     //clockIsRunning = true => clockDisplay only change based timer, no user interaction allowed
     //clockIsRunning = false => clockDisplay can allow user editing. 
-    ClockUsedInPreviousTimeUpdate clockedUsedLast;
+    ClockUsedInPreviousTimeUpdate clockUsedLast;
 } AppState;
 
 @interface BTViewController : UIViewController
@@ -44,11 +48,13 @@ typedef struct _AppState {
     __weak IBOutlet UIButton *startButton;
     __weak IBOutlet UIButton *resetButton;
     
-    Period timerPeriod;
+    Period timerDefaultPeriod;
+    Period timerThisPeriod;
     ClockDisplay clockDisplay;
     AppState appState;
     NSTimer * stopTimer;
-    AVAudioPlayer * audioPlayer;
+    AVAudioPlayer * buzzerPlayer;
+    AVAudioPlayer * bellPlayer;
 }
 
 @property (readonly, strong) BTCounterViewController * goTimer;
@@ -57,5 +63,8 @@ typedef struct _AppState {
 
 - (IBAction)startPressed:(id)sender;
 - (IBAction)resetPressed:(id)sender;
+
+- (void) playAlarmAtRoundEnd;
+- (void) playBellAtRoundStart;
 
 @end

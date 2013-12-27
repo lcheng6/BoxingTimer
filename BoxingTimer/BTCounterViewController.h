@@ -25,14 +25,18 @@ typedef struct _TimeForDisplay {
     __weak IBOutlet UIImageView *sec2;
     __weak IBOutlet UIImageView *separator;
     UITapGestureRecognizer *singleTapRecognizer;
+    int secondsInDisplay;
     
 }
 
-@property(nonatomic, assign) int secondsInDisplay;
 @property(nonatomic, assign) int period;
 @property(nonatomic, assign) BOOL displayInGreen;
 @property(nonatomic, assign) BOOL respondsToTouchForAdjustment;
 - (void) convertSecsToDisplay;
 - (void) setSeparatorOn:(BOOL) on;
 - (void) handleSingleTap:(id) input;
+
+- (void) setSecondsInDisplay:(int)secs;
+- (int) getSecondsInDisplay;
+
 @end

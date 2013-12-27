@@ -13,7 +13,7 @@
 @end
 
 @implementation BTCounterViewController
-@synthesize secondsInDisplay, period, displayInGreen, respondsToTouchForAdjustment;
+@synthesize period, displayInGreen, respondsToTouchForAdjustment;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,9 +82,9 @@
     [self convertSecsToDisplay];
 }
 
-- (void) getSecondsInDisplay:(int) secs
+- (int) getSecondsInDisplay
 {
-    secondsInDisplay = secs;
+    return secondsInDisplay;
 }
 
 - (void) setSeparatorOn:(BOOL) on
@@ -124,7 +124,7 @@
         if (location.x < 80) {
             //In the first minute section
             seconds = seconds + 600;
-            seconds = seconds % 6000;
+            seconds = seconds % 3600;
         }
         else if (location.x < 146 ) {
             //In the second minute section
@@ -133,7 +133,11 @@
             //In the seconds section
             seconds = seconds/60 * 60 + ((seconds%60)+ 15)%60;
         }
-        seconds = seconds % 6000;
+        seconds = seconds % 3600;
+        if (seconds == 0) {
+            seconds = 15;
+        }
+        //Make sure it doesn't exceed the limit of the timer.
         [self setSecondsInDisplay:seconds];
         NSLog(@"%d", seconds);
     }

@@ -65,8 +65,12 @@
     NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/buzzer.mp3", [[NSBundle mainBundle] resourcePath]]];
     
     NSError *error;
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-    audioPlayer.numberOfLoops = 0;
+    buzzerPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    buzzerPlayer.numberOfLoops = 0;
+    
+    url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/bell.mp3", [[NSBundle mainBundle] resourcePath]]];
+    bellPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    bellPlayer.numberOfLoops  = 0;
     
 }
 
@@ -77,18 +81,23 @@
 }
 
 - (void) initTimer {
-    timerPeriod.goPeriod = [goTimer period];
-    timerPeriod.restPeriod = [restTimer period];
+    timerDefaultPeriod.goPeriod = [goTimer period];
+    timerDefaultPeriod.restPeriod = [restTimer period];
+    timerThisPeriod = timerDefaultPeriod;
     
-    appState.lastStartButtonPressedTime = 0;
+    appState.startOfThisRunningTimeBlock = 0;
     appState.clockIsRunning = NO;
-    appState.totalRunningTime = 0;
+    appState.existingRunningTimeThisPeriod = 0;
+    appState.clockUsedLast = kRestTimer;
+    appState.clockWasReset = YES;
     
-    clockDisplay.goDisplay = timerPeriod.goPeriod;
+    clockDisplay.goDisplay = timerDefaultPeriod.goPeriod;
     clockDisplay.goSeparatorOn = YES;
-    clockDisplay.restDisplay = timerPeriod.restPeriod;
+    clockDisplay.restDisplay = timerDefaultPeriod.restPeriod;
     clockDisplay.restSeparatorOn = NO;
     clockDisplay.roundDisplay = 0;
+    
+    
 }
 
 - (void) refreshClockDisplay
@@ -101,31 +110,54 @@
 }
 
 - (IBAction)startPressed:(id)sender {
-   /*
     
-    [self refreshClockDisplay];
+    if (appState.clockWasReset == YES) {
+        timerDefaultPeriod.goPeriod = [goTimer getSecondsInDisplay];
+        timerDefaultPeriod.restPeriod = [restTimer getSecondsInDisplay];
+        timerThisPeriod = timerDefaultPeriod;
+        appState.clockWasReset = NO;
+    }
     
     if (appState.clockIsRunning == NO) {
         //The current state is not running, and title of start button is "Hold"
         [startButton setTitle:@"Hold" forState:UIControlStateNormal];
         appState.clockIsRunning = YES;
-        appState.lastStartButtonPressedTime = CACurrentMediaTime();
+        appState.startOfThisRunningTimeBlock = CACurrentMediaTime();
         if(stopTimer == nil) {
             stopTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
         }
         [resetButton setEnabled:NO];
+        [goTimer setRespondsToTouchForAdjustment:false];
+        [restTimer setRespondsToTouchForAdjustment:false];
+        
+        timerThisPeriod.goPeriod += ([goTimer getSecondsInDisplay] - clockDisplay.goDisplay);
+        clockDisplay.goDisplay = [goTimer getSecondsInDisplay];
+        timerThisPeriod.restPeriod += ([restTimer getSecondsInDisplay] - clockDisplay.restDisplay);
+        clockDisplay.restDisplay = [restTimer getSecondsInDisplay];
+        
+        
     } else {
         //The current state is running, and the title of the start button is "Hold"
         [startButton setTitle:@"Start" forState:UIControlStateNormal];
-        appState.totalRunningTime += CACurrentMediaTime() - appState.lastStartButtonPressedTime;
+        appState.existingRunningTimeThisPeriod += CACurrentMediaTime() - appState.startOfThisRunningTimeBlock;
         appState.clockIsRunning = NO;
         if(stopTimer) {
             [stopTimer invalidate];
             stopTimer = nil;
         }
+        
         [resetButton setEnabled:YES];
+        [goTimer setRespondsToTouchForAdjustment:true];
+        [restTimer setRespondsToTouchForAdjustment:true];
+        if (appState.existingRunningTimeThisPeriod < timerThisPeriod.goPeriod) {
+            [goTimer setRespondsToTouchForAdjustment:YES];
+            [restTimer setRespondsToTouchForAdjustment:YES];
+        } else {
+            [goTimer setRespondsToTouchForAdjustment:NO];
+            [restTimer setRespondsToTouchForAdjustment:YES];
+        }
     }
-    */
+    [self refreshClockDisplay];
 }
 
 - (IBAction)resetPressed:(id)sender {
@@ -137,56 +169,73 @@
         //[self playAlarmAtRoundEnd];
     }
      */
+    [self initTimer];
+    [self refreshClockDisplay];
+    [goTimer setRespondsToTouchForAdjustment:YES];
+    [restTimer setRespondsToTouchForAdjustment:YES];
 }
 
 - (void)updateTimer {
-    double currenTime = CACurrentMediaTime();
-    double runnTime = currenTime - appState.lastStartButtonPressedTime + appState.totalRunningTime;
-    NSLog(@"difftime: %.3f", runnTime);
-    [self convertTimerToDisplay:runnTime];
+    double currentTime = CACurrentMediaTime();
+    double runTimeThisPeriod = currentTime - appState.startOfThisRunningTimeBlock + appState.existingRunningTimeThisPeriod;
+    NSLog(@"runTimeThisPeriod: %.3f", runTimeThisPeriod);
+    [self convertTimerToDisplay:runTimeThisPeriod];
     [self refreshClockDisplay];
 }
 
-- (void)convertTimerToDisplay:(double) diffTime
+- (void)convertTimerToDisplay:(double) runTimeThisPeriod
 {
-    /*
-    int entirePeriod = timerPeriod.goPeriod + timerPeriod.restPeriod;
-    clockDisplay.roundDisplay = ((int) diffTime)/entirePeriod;
-    int secIntoThisEntirePriod = ((int) diffTime % entirePeriod);
-    int tenthSec = ((int)(diffTime * 10.0)) % 10;
-    
-    
-    if (secIntoThisEntirePriod < goTimer.period) {
-        clockDisplay.goDisplay = timerPeriod.goPeriod - secIntoThisEntirePriod;
+    int tenthSec = (int)(runTimeThisPeriod * 10.0) %10;
+    if(runTimeThisPeriod < timerThisPeriod.goPeriod)
+    {
+        //This is the goTime.
+        clockDisplay.goDisplay = timerThisPeriod.goPeriod - runTimeThisPeriod;
         if(tenthSec < 5) {
             clockDisplay.goSeparatorOn = YES;
         } else {
             clockDisplay.goSeparatorOn = NO;
         }
-        clockDisplay.restSeparatorOn = NO;
-        clockDisplay.restDisplay = 0;
-        
-        appState.clockedUsedLast = kGoTimer;
-    } else {
-        clockDisplay.restDisplay = entirePeriod - secIntoThisEntirePriod;
+        if(appState.clockUsedLast == kRestTimer) {
+            [self playBellAtRoundStart];
+            appState.clockUsedLast = kGoTimer;
+            clockDisplay.restSeparatorOn = NO;
+        }
+    } else if (runTimeThisPeriod < timerThisPeriod.goPeriod + timerThisPeriod.restPeriod){
+        clockDisplay.restDisplay = timerThisPeriod.restPeriod + timerThisPeriod.goPeriod - runTimeThisPeriod;
         if (tenthSec < 5) {
             clockDisplay.restSeparatorOn = YES;
         } else {
             clockDisplay.restSeparatorOn = NO;
         }
-        clockDisplay.goSeparatorOn = NO;
-        clockDisplay.goDisplay = 0;
-        if (appState.clockedUsedLast == kGoTimer) {
+        if(appState.clockUsedLast == kGoTimer) {
             [self playAlarmAtRoundEnd];
+            appState.clockUsedLast = kRestTimer;
+            clockDisplay.goSeparatorOn = NO;
         }
-        appState.clockedUsedLast = kRestTimer;
+    } else {
+        //Finished this period (go + rest) entirely
+        clockDisplay.roundDisplay = clockDisplay.roundDisplay + 1;
+        timerThisPeriod = timerDefaultPeriod;
+        clockDisplay.restSeparatorOn = NO;
+        appState.startOfThisRunningTimeBlock = CACurrentMediaTime();
+        appState.existingRunningTimeThisPeriod = 0;
     }
-     */
+    
 }
 
 - (void) playAlarmAtRoundEnd {
-    
-    [audioPlayer play];
+    [buzzerPlayer play];
 }
 
+- (void) playBellAtRoundStart {
+    [bellPlayer play];
+}
+
+- (void) setClockToDefaultPeriod {
+    [goTimer setSecondsInDisplay:15];
+    [goTimer setPeriod:15];
+
+    [restTimer setSecondsInDisplay:15];
+    [restTimer setPeriod:15];
+}
 @end

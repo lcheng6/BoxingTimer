@@ -16,6 +16,7 @@
 		C430B6E01861B165003E819F /* RoundCounter_flare.png in Resources */ = {isa = PBXBuildFile; fileRef = C430B6DC1861B165003E819F /* RoundCounter_flare.png */; };
 		C430B6E11861B165003E819F /* RoundCounter_flare@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C430B6DD1861B165003E819F /* RoundCounter_flare@2x.png */; };
 		C430B6E31861C14B003E819F /* buzzer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C430B6E21861C14B003E819F /* buzzer.mp3 */; };
+		C46B0B07186D59E50059ED44 /* bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C46B0B06186D59E50059ED44 /* bell.mp3 */; };
 		C494A13E186059F700CBF369 /* Numbers_red_0.png in Resources */ = {isa = PBXBuildFile; fileRef = C494A128186059F700CBF369 /* Numbers_red_0.png */; };
 		C494A13F186059F700CBF369 /* Numbers_red_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C494A129186059F700CBF369 /* Numbers_red_0@2x.png */; };
 		C494A140186059F700CBF369 /* Numbers_red_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C494A12A186059F700CBF369 /* Numbers_red_1.png */; };
@@ -105,6 +106,7 @@
 		C430B6DC1861B165003E819F /* RoundCounter_flare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RoundCounter_flare.png; path = BoxingTimer/Images.xcassets/RoundCounter_flare.png; sourceTree = "<group>"; };
 		C430B6DD1861B165003E819F /* RoundCounter_flare@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RoundCounter_flare@2x.png"; path = "BoxingTimer/Images.xcassets/RoundCounter_flare@2x.png"; sourceTree = "<group>"; };
 		C430B6E21861C14B003E819F /* buzzer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = buzzer.mp3; path = BoxingTimer/sounds/buzzer.mp3; sourceTree = "<group>"; };
+		C46B0B06186D59E50059ED44 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = bell.mp3; path = BoxingTimer/sounds/bell.mp3; sourceTree = "<group>"; };
 		C494A128186059F700CBF369 /* Numbers_red_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Numbers_red_0.png; path = BoxingTimer/Images.xcassets/Numbers_red_0.png; sourceTree = "<group>"; };
 		C494A129186059F700CBF369 /* Numbers_red_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Numbers_red_0@2x.png"; path = "BoxingTimer/Images.xcassets/Numbers_red_0@2x.png"; sourceTree = "<group>"; };
 		C494A12A186059F700CBF369 /* Numbers_red_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Numbers_red_1.png; path = BoxingTimer/Images.xcassets/Numbers_red_1.png; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 		C4E1EF7C18543023009F8B8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C46B0B06186D59E50059ED44 /* bell.mp3 */,
 				C430B6E21861C14B003E819F /* buzzer.mp3 */,
 				C4E1EFF018547862009F8B8F /* sounds */,
 				C4E1EF7D18543031009F8B8F /* Images */,
@@ -515,6 +518,7 @@
 				C494A1A118606ADD00CBF369 /* Numbers_green_9@2x.png in Resources */,
 				C494A13E186059F700CBF369 /* Numbers_red_0.png in Resources */,
 				C430B6D71861B14A003E819F /* clock_face_bg@2x.png in Resources */,
+				C46B0B07186D59E50059ED44 /* bell.mp3 in Resources */,
 				C4E1EF5618541DE2009F8B8F /* Main.storyboard in Resources */,
 				C494A146186059F700CBF369 /* Numbers_red_4.png in Resources */,
 				C494A19818606ADD00CBF369 /* Numbers_green_5.png in Resources */,
