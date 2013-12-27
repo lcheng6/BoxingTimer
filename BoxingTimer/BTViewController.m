@@ -113,7 +113,7 @@
         }
         [resetButton setEnabled:NO];
     } else {
-        //The current state is running, ad the title of the start button is "Hold"
+        //The current state is running, and the title of the start button is "Hold"
         [startButton setTitle:@"Start" forState:UIControlStateNormal];
         appState.totalRunningTime += CACurrentMediaTime() - appState.lastStartButtonPressedTime;
         appState.clockIsRunning = NO;
@@ -130,7 +130,7 @@
     {
         [self initTimer];
         [self refreshClockDisplay];
-        [self playAlarmAtRoundEnd];
+        //[self playAlarmAtRoundEnd];
     }
 }
 

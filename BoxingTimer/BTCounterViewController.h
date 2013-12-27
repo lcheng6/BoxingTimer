@@ -17,13 +17,14 @@ typedef struct _TimeForDisplay {
     int sec2;
 } TimeForDisplay;
 
-@interface BTCounterViewController : UIViewController 
+@interface BTCounterViewController : UIViewController <UIGestureRecognizerDelegate>
 {
     __weak IBOutlet UIImageView *min1;
     __weak IBOutlet UIImageView *min2;
     __weak IBOutlet UIImageView *sec1;
     __weak IBOutlet UIImageView *sec2;
     __weak IBOutlet UIImageView *separator;
+    UITapGestureRecognizer *singleTapRecognizer;
     
 }
 
@@ -32,5 +33,5 @@ typedef struct _TimeForDisplay {
 @property(nonatomic, assign) BOOL displayInGreen;
 - (void) convertSecsToDisplay;
 - (void) setSeparatorOn:(BOOL) on;
-
+- (void) handleSingleTap:(id) input;
 @end

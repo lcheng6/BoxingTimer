@@ -30,6 +30,10 @@
     // Do any additional setup after loading the view from its nib.
     
     [self setSeparatorOn:YES];
+    singleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    
+    [[self view] addGestureRecognizer:singleTapRecognizer];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,6 +108,11 @@
 {
     displayInGreen = displayInGreen1;
     [[self view] setNeedsDisplay];
+}
+
+- (void) handleSingleTap: (id) input
+{
+    NSLog(@"touch recognized");
 }
 
 
