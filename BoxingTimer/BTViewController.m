@@ -29,6 +29,7 @@
     [goTimer setDisplayInGreen:true];
     [goTimer setSecondsInDisplay:15];
     [goTimer setPeriod:15];
+    [goTimer setRespondsToTouchForAdjustment:true];
     CGRect timerRect = [[goTimer view] bounds];
     timerRect.origin.y = 30;
     timerRect.origin.x = 14;
@@ -43,6 +44,7 @@
     [restTimer setDisplayInGreen:false];
     [restTimer setSecondsInDisplay:15];
     [restTimer setPeriod:15];
+    [restTimer setRespondsToTouchForAdjustment:true];
     [[restTimer view] setFrame:timerRect];
     [restTimer setSeparatorOn:NO];
     [[self view] addSubview:[restTimer view]];
@@ -99,7 +101,7 @@
 }
 
 - (IBAction)startPressed:(id)sender {
-    
+   /*
     
     [self refreshClockDisplay];
     
@@ -123,15 +125,18 @@
         }
         [resetButton setEnabled:YES];
     }
+    */
 }
 
 - (IBAction)resetPressed:(id)sender {
+    /*
     if (appState.clockIsRunning == NO)
     {
         [self initTimer];
         [self refreshClockDisplay];
         //[self playAlarmAtRoundEnd];
     }
+     */
 }
 
 - (void)updateTimer {
@@ -144,6 +149,7 @@
 
 - (void)convertTimerToDisplay:(double) diffTime
 {
+    /*
     int entirePeriod = timerPeriod.goPeriod + timerPeriod.restPeriod;
     clockDisplay.roundDisplay = ((int) diffTime)/entirePeriod;
     int secIntoThisEntirePriod = ((int) diffTime % entirePeriod);
@@ -175,6 +181,7 @@
         }
         appState.clockedUsedLast = kRestTimer;
     }
+     */
 }
 
 - (void) playAlarmAtRoundEnd {

@@ -13,7 +13,7 @@
 @end
 
 @implementation BTCounterViewController
-@synthesize secondsInDisplay, period, displayInGreen;
+@synthesize secondsInDisplay, period, displayInGreen, respondsToTouchForAdjustment;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,6 +82,11 @@
     [self convertSecsToDisplay];
 }
 
+- (void) getSecondsInDisplay:(int) secs
+{
+    secondsInDisplay = secs;
+}
+
 - (void) setSeparatorOn:(BOOL) on
 {
     NSString * imageOn;
@@ -110,9 +115,28 @@
     [[self view] setNeedsDisplay];
 }
 
-- (void) handleSingleTap: (id) input
+- (void) handleSingleTap: (UIGestureRecognizer*) recognizer
 {
-    NSLog(@"touch recognized");
+    if(respondsToTouchForAdjustment == true) {
+        CGPoint location = [recognizer locationInView:self.view];
+        int seconds = secondsInDisplay;
+        
+        if (location.x < 80) {
+            //In the first minute section
+            seconds = seconds + 600;
+            seconds = seconds % 6000;
+        }
+        else if (location.x < 146 ) {
+            //In the second minute section
+            seconds = seconds/600 * 600 + ((seconds % 600) + 60) % 600;
+        } else if (location.x > 150) {
+            //In the seconds section
+            seconds = seconds/60 * 60 + ((seconds%60)+ 15)%60;
+        }
+        seconds = seconds % 6000;
+        [self setSecondsInDisplay:seconds];
+        NSLog(@"%d", seconds);
+    }
 }
 
 

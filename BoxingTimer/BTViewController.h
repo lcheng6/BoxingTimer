@@ -34,6 +34,8 @@ typedef struct _AppState {
     double lastStartButtonPressedTime;
     double totalRunningTime;
     BOOL clockIsRunning;
+    //clockIsRunning = true => clockDisplay only change based timer, no user interaction allowed
+    //clockIsRunning = false => clockDisplay can allow user editing. 
     ClockUsedInPreviousTimeUpdate clockedUsedLast;
 } AppState;
 

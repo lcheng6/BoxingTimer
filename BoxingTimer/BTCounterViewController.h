@@ -17,7 +17,7 @@ typedef struct _TimeForDisplay {
     int sec2;
 } TimeForDisplay;
 
-@interface BTCounterViewController : UIViewController <UIGestureRecognizerDelegate>
+@interface BTCounterViewController : UIViewController
 {
     __weak IBOutlet UIImageView *min1;
     __weak IBOutlet UIImageView *min2;
@@ -31,6 +31,7 @@ typedef struct _TimeForDisplay {
 @property(nonatomic, assign) int secondsInDisplay;
 @property(nonatomic, assign) int period;
 @property(nonatomic, assign) BOOL displayInGreen;
+@property(nonatomic, assign) BOOL respondsToTouchForAdjustment;
 - (void) convertSecsToDisplay;
 - (void) setSeparatorOn:(BOOL) on;
 - (void) handleSingleTap:(id) input;
