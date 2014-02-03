@@ -111,14 +111,19 @@
 
 - (IBAction)startPressed:(id)sender {
     
-    if (appState.clockWasReset == YES) {
-        timerDefaultPeriod.goPeriod = [goTimer getSecondsInDisplay];
-        timerDefaultPeriod.restPeriod = [restTimer getSecondsInDisplay];
-        timerThisPeriod = timerDefaultPeriod;
-        appState.clockWasReset = NO;
-    }
-    
     if (appState.clockIsRunning == NO) {
+        
+        if (appState.clockWasReset == YES) {
+            timerDefaultPeriod.goPeriod = [goTimer getSecondsInDisplay];
+            timerDefaultPeriod.restPeriod = [restTimer getSecondsInDisplay];
+            timerThisPeriod = timerDefaultPeriod;
+            appState.clockWasReset = NO;
+        } else {
+            timerThisPeriod.goPeriod += ([goTimer getSecondsInDisplay] - clockDisplay.goDisplay);
+            clockDisplay.goDisplay = [goTimer getSecondsInDisplay];
+            timerThisPeriod.restPeriod += ([restTimer getSecondsInDisplay] - clockDisplay.restDisplay);
+            clockDisplay.restDisplay = [restTimer getSecondsInDisplay];
+        }
         //The current state is not running, and title of start button is "Hold"
         [startButton setTitle:@"Hold" forState:UIControlStateNormal];
         appState.clockIsRunning = YES;
@@ -129,12 +134,6 @@
         [resetButton setEnabled:NO];
         [goTimer setRespondsToTouchForAdjustment:false];
         [restTimer setRespondsToTouchForAdjustment:false];
-        
-        timerThisPeriod.goPeriod += ([goTimer getSecondsInDisplay] - clockDisplay.goDisplay);
-        clockDisplay.goDisplay = [goTimer getSecondsInDisplay];
-        timerThisPeriod.restPeriod += ([restTimer getSecondsInDisplay] - clockDisplay.restDisplay);
-        clockDisplay.restDisplay = [restTimer getSecondsInDisplay];
-        
         
     } else {
         //The current state is running, and the title of the start button is "Hold"
@@ -157,7 +156,7 @@
             [restTimer setRespondsToTouchForAdjustment:YES];
         }
     }
-    [self refreshClockDisplay];
+    //[self refreshClockDisplay];
 }
 
 - (IBAction)resetPressed:(id)sender {
