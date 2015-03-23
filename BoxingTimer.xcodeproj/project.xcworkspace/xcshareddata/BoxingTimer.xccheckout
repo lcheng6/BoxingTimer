@@ -10,29 +10,29 @@
 	<string>BoxingTimer</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>D279C77D-A9A0-4262-A771-BB68A9C89A18</key>
+		<key>86B4BD687C64C46B1405D5817C2FF8CBA2461256</key>
 		<string>https://github.com/lcheng6/BoxingTimer.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>BoxingTimer.xcodeproj/project.xcworkspace</string>
+	<string>BoxingTimer.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>D279C77D-A9A0-4262-A771-BB68A9C89A18</key>
+		<key>86B4BD687C64C46B1405D5817C2FF8CBA2461256</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/lcheng6/BoxingTimer.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>D279C77D-A9A0-4262-A771-BB68A9C89A18</string>
+	<string>86B4BD687C64C46B1405D5817C2FF8CBA2461256</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>D279C77D-A9A0-4262-A771-BB68A9C89A18</string>
+			<string>86B4BD687C64C46B1405D5817C2FF8CBA2461256</string>
 			<key>IDESourceControlWCCName</key>
 			<string>BoxingTimer</string>
 		</dict>
