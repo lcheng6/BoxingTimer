@@ -9,7 +9,7 @@ Technical goal of this program is to integrate graphic assets into a program, di
 * ARC
 
 ## Features
-PNG to display numbers, rather than using system fonts. Time tracking within rounds, alarm to stop round, alarm to start round, and track round #.  And of course Start, Hold, and Reset during rounds
+Use custom PNG to mimc 9 segment display of numbers, rather than using boring system fonts. Track time within rounds, sound buzz to stop round, sound bell to start, and track round #.  And of course display context appropriate Start, Hold, and Reset buttons during rounds
 
 <img src="screenshots/StartScreen.PNG" height="355" width="200" />
 <img src="screenshots/InProgress.PNG" height="355" width="200" />
